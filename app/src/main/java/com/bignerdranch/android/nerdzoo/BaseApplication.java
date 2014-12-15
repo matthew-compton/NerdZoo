@@ -4,19 +4,21 @@ import android.app.Application;
 import android.content.Context;
 
 import dagger.ObjectGraph;
+import timber.log.Timber;
 
-public class MainApplication extends Application {
+public class BaseApplication extends Application {
 
     private ObjectGraph mObjectGraph;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mObjectGraph = ObjectGraph.create(new MainApplicationModule(this));
+        mObjectGraph = ObjectGraph.create(new BaseModule(this));
+        Timber.plant(new Timber.DebugTree());
     }
 
-    public static MainApplication get(Context context) {
-        return (MainApplication) context.getApplicationContext();
+    public static BaseApplication get(Context context) {
+        return (BaseApplication) context.getApplicationContext();
     }
 
     public final void inject(Object object) {

@@ -10,7 +10,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainApplication.get(getActivity()).inject(this);
+        BaseApplication.get(getActivity()).inject(this);
     }
 
 }

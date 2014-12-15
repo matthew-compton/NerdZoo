@@ -1,8 +1,10 @@
 package com.bignerdranch.android.nerdzoo;
 
-import com.bignerdranch.android.nerdroll.controller.DieFragment;
-import com.bignerdranch.android.nerdroll.controller.DieListFragment;
-import com.bignerdranch.android.nerdroll.model.DieList;
+import com.bignerdranch.android.nerdzoo.controller.AnimalActivity;
+import com.bignerdranch.android.nerdzoo.controller.AnimalFragment;
+import com.bignerdranch.android.nerdzoo.controller.ZooActivity;
+import com.bignerdranch.android.nerdzoo.controller.ZooFragment;
+import com.bignerdranch.android.nerdzoo.model.Zoo;
 
 import javax.inject.Singleton;
 
@@ -19,11 +21,11 @@ import dagger.Provides;
                 AnimalFragment.class
         },
         complete = true)
-public class MainApplicationModule {
+public class BaseModule {
 
-    private final MainApplication mApplication;
+    private final BaseApplication mApplication;
 
-    public MainApplicationModule(MainApplication application) {
+    public BaseModule(BaseApplication application) {
         mApplication = application;
     }
 
@@ -31,12 +33,6 @@ public class MainApplicationModule {
     @Singleton
     public Zoo provideZoo() {
         return new Zoo();
-    }
-
-    @Provides
-    @Singleton
-    public MainApplicationPreference providePreference() {
-        return new MainApplicationPreference();
     }
 
 }

@@ -3,4 +3,12 @@
 
     <string name="app_name">NerdZoo</string>
 
+    <!-- Animals -->
+    <string name="animal_lion">Lion</string>
+    <string name="animal_tiger">Tiger</string>
+    <string name="animal_cheetah">Cheetah</string>
+    <string name="animal_leopard">Leopard</string>
+    <string name="animal_lynx">Lynx</string>
+    <string name="animal_cat">Cat</string>
+
 </resources>
