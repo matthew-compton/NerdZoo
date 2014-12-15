@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bignerdranch.android.nerdzoo" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:logo="@drawable/ic_overview"
+        android:label="@string/app_name"
+        android:name="com.bignerdranch.android.nerdzoo.MainApplication"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".BaseActivity"
+            android:label="@string/app_name"
+            android:icon="@drawable/ic_overview">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+    </application>
+</manifest>
