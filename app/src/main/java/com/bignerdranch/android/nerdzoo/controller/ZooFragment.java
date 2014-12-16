@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bignerdranch.android.nerdzoo.BaseApplication;
 import com.bignerdranch.android.nerdzoo.BaseFragment;
 import com.bignerdranch.android.nerdzoo.R;
 import com.bignerdranch.android.nerdzoo.model.Animal;
 import com.bignerdranch.android.nerdzoo.model.Zoo;
+import com.bignerdranch.android.nerdzoo.view.DividerItemDecoration;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -41,6 +45,7 @@ public class ZooFragment extends BaseFragment {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setAdapter(new ZooAdapter());
 
         return view;
@@ -48,15 +53,17 @@ public class ZooFragment extends BaseFragment {
 
     public class ZooHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @InjectView(R.id.card_animal_image) public ImageView mImageView;
+        @InjectView(R.id.list_item_animal_image) public ImageView mImageView;
+        @InjectView(R.id.list_item_animal_progress) public ProgressBar mProgressBar;
+        @InjectView(R.id.list_item_animal_title) public TextView mTitleTextView;
+        @InjectView(R.id.list_item_animal_description) public TextView mDescriptionTextView;
 
         private Animal mAnimal;
+        private boolean mIsLoading;
 
         public ZooHolder(View view) {
             super(view);
-            if (!view.isInEditMode()) {
-                ButterKnife.inject(this, view);
-            }
+            ButterKnife.inject(this, view);
             view.setOnClickListener(this);
         }
 
@@ -71,7 +78,35 @@ public class ZooFragment extends BaseFragment {
 
         public void bindCrime(Animal animal) {
             mAnimal = animal;
-            Picasso.with(getActivity()).load(mAnimal.getImageResourceId()).into(mImageView);
+            mIsLoading = true;
+            mTitleTextView.setText(mAnimal.getNameResourceId());
+            mDescriptionTextView.setText(mAnimal.getDescriptionResourceId());
+            Picasso.with(getActivity())
+                    .load(mAnimal.getImageResourceId())
+                    .into(mImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            mIsLoading = false;
+                            updateUI();
+                        }
+
+                        @Override
+                        public void onError() {
+                            mIsLoading = false;
+                            updateUI();
+                        }
+                    });
+            updateUI();
+        }
+
+        private void updateUI() {
+            if (mIsLoading) {
+                mImageView.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
+            } else {
+                mProgressBar.setVisibility(View.GONE);
+                mImageView.setVisibility(View.VISIBLE);
+            }
         }
 
     }
@@ -80,7 +115,7 @@ public class ZooFragment extends BaseFragment {
 
         @Override
         public ZooHolder onCreateViewHolder(ViewGroup parent, int position) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_animal, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_animal, parent, false);
             return new ZooHolder(view);
         }
 

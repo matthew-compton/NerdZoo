@@ -10,5 +10,11 @@
     <string name="animal_leopard">Leopard</string>
     <string name="animal_lynx">Lynx</string>
     <string name="animal_cat">Cat</string>
+    <string name="animal_lion_description">Lion Description</string>
+    <string name="animal_tiger_description">Tiger Description</string>
+    <string name="animal_cheetah_description">Cheetah Description</string>
+    <string name="animal_leopard_description">Leopard Description</string>
+    <string name="animal_lynx_description">Lynx Description</string>
+    <string name="animal_cat_description">Cat Description</string>
 
 </resources>

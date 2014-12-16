@@ -27,12 +27,12 @@ public class Zoo {
 
     private List<Animal> setupDebugAnimalList() {
         return Collections.unmodifiableList(Arrays.asList(
-                new Animal(UUID.randomUUID(), R.string.animal_lion, R.drawable.animal_lion),
-                new Animal(UUID.randomUUID(), R.string.animal_tiger, R.drawable.animal_tiger),
-                new Animal(UUID.randomUUID(), R.string.animal_cheetah, R.drawable.animal_cheetah),
-                new Animal(UUID.randomUUID(), R.string.animal_leopard, R.drawable.animal_leopard),
-                new Animal(UUID.randomUUID(), R.string.animal_lynx, R.drawable.animal_lynx),
-                new Animal(UUID.randomUUID(), R.string.animal_cat, R.drawable.animal_cat)
+                new Animal(UUID.randomUUID(), R.string.animal_lion, R.string.animal_lion_description, R.drawable.animal_lion),
+                new Animal(UUID.randomUUID(), R.string.animal_tiger, R.string.animal_tiger_description, R.drawable.animal_tiger),
+                new Animal(UUID.randomUUID(), R.string.animal_cheetah, R.string.animal_cheetah_description, R.drawable.animal_cheetah),
+                new Animal(UUID.randomUUID(), R.string.animal_leopard, R.string.animal_leopard_description, R.drawable.animal_leopard),
+                new Animal(UUID.randomUUID(), R.string.animal_lynx, R.string.animal_lynx_description, R.drawable.animal_lynx),
+                new Animal(UUID.randomUUID(), R.string.animal_cat, R.string.animal_cat_description, R.drawable.animal_cat)
         ));
     }
 

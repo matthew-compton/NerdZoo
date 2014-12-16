@@ -91,11 +91,9 @@
     <orderEntry type="library" exported="" name="support-v4-21.0.2" level="project" />
     <orderEntry type="library" exported="" name="dagger-compiler-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.2" level="project" />
-    <orderEntry type="library" exported="" name="cardview-v7-21.0.2" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.2" level="project" />
     <orderEntry type="library" exported="" name="retrolambda-1.6.1" level="project" />
     <orderEntry type="library" exported="" name="timber-2.5.0" level="project" />
-    <orderEntry type="library" exported="" name="twowayview-0.1.4" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.2" level="project" />
     <orderEntry type="library" exported="" name="butterknife-5.1.2" level="project" />

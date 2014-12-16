@@ -18,7 +18,6 @@ Libraries
 - [Picasso](https://github.com/square/picasso)
 - [Timber](https://github.com/JakeWharton/timber)
 - [Butter Knife](https://jakewharton.github.io/butterknife)
-- [TwoWayView](https://github.com/lucasr/twoway-view)
 - [Retrolambda](https://github.com/orfjackal/retrolambda)
 
 Contributing
