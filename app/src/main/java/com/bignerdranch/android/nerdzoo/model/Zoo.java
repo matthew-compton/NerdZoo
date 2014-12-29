@@ -1,11 +1,10 @@
 package com.bignerdranch.android.nerdzoo.model;
 
-import com.bignerdranch.android.nerdzoo.BuildConfig;
 import com.bignerdranch.android.nerdzoo.R;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -14,35 +13,78 @@ import javax.inject.Singleton;
 @Singleton
 public class Zoo {
 
-    private final List<Animal> mAnimalList;
+    private List<Animal> mAnimalList;
 
     @Inject
     public Zoo() {
-        if (BuildConfig.DEBUG) {
-            mAnimalList = setupDebugAnimalList();
-        } else {
-            mAnimalList = setupAnimalList();
-        }
+        setupInitialList();
     }
 
-    private List<Animal> setupDebugAnimalList() {
-        return Collections.unmodifiableList(Arrays.asList(
-                new Animal(UUID.randomUUID(), R.string.animal_lion, R.string.animal_lion_description, R.drawable.animal_lion),
-                new Animal(UUID.randomUUID(), R.string.animal_tiger, R.string.animal_tiger_description, R.drawable.animal_tiger),
-                new Animal(UUID.randomUUID(), R.string.animal_cheetah, R.string.animal_cheetah_description, R.drawable.animal_cheetah),
-                new Animal(UUID.randomUUID(), R.string.animal_leopard, R.string.animal_leopard_description, R.drawable.animal_leopard),
-                new Animal(UUID.randomUUID(), R.string.animal_lynx, R.string.animal_lynx_description, R.drawable.animal_lynx),
-                new Animal(UUID.randomUUID(), R.string.animal_cat, R.string.animal_cat_description, R.drawable.animal_cat)
-        ));
-    }
-
-    private List<Animal> setupAnimalList() {
-        // In a production app, we would implement web-service fetching and population
-        return null;
+    private void setupInitialList() {
+        mAnimalList = new ArrayList<Animal>();
     }
 
     public List<Animal> asList() {
         return mAnimalList;
+    }
+
+    public Animal findAnimalById(UUID id) {
+        for (Animal animal : mAnimalList) {
+            if (id.equals(animal.getId())) {
+                return animal;
+            }
+        }
+        return null;
+    }
+
+    public int size() {
+        return mAnimalList.size();
+    }
+
+    public Animal get(int position) {
+        return mAnimalList.get(position);
+    }
+
+    public void add() {
+        mAnimalList.add(generateRandomAnimal());
+    }
+
+    public void remove(UUID id) {
+        for (int i = 0; i < mAnimalList.size(); i++) {
+            if (id.equals(mAnimalList.get(i).getId())) {
+                mAnimalList.remove(i);
+                break;
+            }
+        }
+    }
+
+    public void remove(int position) {
+        mAnimalList.remove(position);
+    }
+
+    public void clear() {
+        mAnimalList.clear();
+    }
+
+    private Animal generateRandomAnimal() {
+        Random r = new Random();
+        int random = r.nextInt(6) + 1;
+        switch (random) {
+            case 1:
+                return new Animal(UUID.randomUUID(), R.string.animal_lion, R.string.animal_lion_description, R.drawable.animal_lion);
+            case 2:
+                return new Animal(UUID.randomUUID(), R.string.animal_tiger, R.string.animal_tiger_description, R.drawable.animal_tiger);
+            case 3:
+                return new Animal(UUID.randomUUID(), R.string.animal_cheetah, R.string.animal_cheetah_description, R.drawable.animal_cheetah);
+            case 4:
+                return new Animal(UUID.randomUUID(), R.string.animal_leopard, R.string.animal_leopard_description, R.drawable.animal_leopard);
+            case 5:
+                return new Animal(UUID.randomUUID(), R.string.animal_lynx, R.string.animal_lynx_description, R.drawable.animal_lynx);
+            case 6:
+                return new Animal(UUID.randomUUID(), R.string.animal_cat, R.string.animal_cat_description, R.drawable.animal_cat);
+            default:
+                return null;
+        }
     }
 
 }

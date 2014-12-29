@@ -3,8 +3,18 @@
 
     <color name="primary">#FF9800</color>
     <color name="primary_dark">#F57C00</color>
-    <color name="accent">#03A9F4</color>
-    <color name="text_primary">#D9FFFFFF</color>
-    <color name="text_secondary">#D9000000</color>
+    <color name="primary_light">#FFE0B2</color>
+    <color name="accent">#FF5722</color>
+
+    <color name="text_toolbar_primary">#FFFFFF</color>
+    <color name="text_toolbar_secondary">#000000</color>
+    <color name="text_primary">#D9212121</color>
+    <color name="text_secondary">#D9727272</color>
+
+    <color name="background">#FFFFFF</color>
+    <color name="background_selectable_item">#FFFFFF</color>
+
+    <color name="icons">#FFFFFF</color>
+    <color name="dividers">#B6B6B6</color>
 
 </resources>

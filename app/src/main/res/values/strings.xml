@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- General-->
     <string name="app_name">NerdZoo</string>
+    <string name="fragment_zoo_textview_empty">Add an animal!</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item >Home</item>
+        <item >About</item>
+    </string-array>
+
+    <!-- Nav Drawer List Item Icons -->
+    <array name="nav_drawer_icons">
+        <item>@android:drawable/ic_menu_myplaces</item>
+        <item>@android:drawable/ic_menu_info_details</item>
+    </array>
+
+    <!-- Menus -->
+    <string name="menu_zoo_add">Add</string>
+    <string name="menu_zoo_clear">Clear</string>
+    <string name="menu_animal_remove">Remove</string>
 
     <!-- Animals -->
     <string name="animal_lion">Lion</string>

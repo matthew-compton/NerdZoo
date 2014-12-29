@@ -3,4 +3,11 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".AnimalActivity">
 
+    <item
+        android:id="@+id/menu_animal_remove"
+        android:title="@string/menu_animal_remove"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:orderInCategory="1"
+        app:showAsAction="always"/>
+
 </menu>

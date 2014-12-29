@@ -1,5 +1,7 @@
 package com.bignerdranch.android.nerdzoo;
 
+import com.bignerdranch.android.nerdzoo.controller.AboutActivity;
+import com.bignerdranch.android.nerdzoo.controller.AboutFragment;
 import com.bignerdranch.android.nerdzoo.controller.AnimalActivity;
 import com.bignerdranch.android.nerdzoo.controller.AnimalFragment;
 import com.bignerdranch.android.nerdzoo.controller.ZooActivity;
@@ -13,12 +15,12 @@ import dagger.Provides;
 
 @Module(
         injects = {
-                BaseActivity.class,
-                BaseFragment.class,
-                ZooActivity.class,
-                ZooFragment.class,
+                AboutActivity.class,
+                AboutFragment.class,
                 AnimalActivity.class,
-                AnimalFragment.class
+                AnimalFragment.class,
+                ZooActivity.class,
+                ZooFragment.class
         },
         complete = true)
 public class BaseModule {

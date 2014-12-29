@@ -1,18 +1,24 @@
 package com.bignerdranch.android.nerdzoo.controller;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bignerdranch.android.nerdzoo.BaseApplication;
-import com.bignerdranch.android.nerdzoo.BaseFragment;
 import com.bignerdranch.android.nerdzoo.R;
 import com.bignerdranch.android.nerdzoo.model.Animal;
 import com.bignerdranch.android.nerdzoo.model.Zoo;
@@ -20,15 +26,20 @@ import com.bignerdranch.android.nerdzoo.view.DividerItemDecoration;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.UUID;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
-public class ZooFragment extends BaseFragment {
+public class ZooFragment extends Fragment {
 
-    public static final String EXTRA_ANIMAL = "EXTRA_ANIMAL";
+    public static final String EXTRA_ANIMAL_ID = "EXTRA_ANIMAL_ID";
+    public static final int REQUEST_CODE_ANIMAL = 0;
 
+    @InjectView(R.id.fragment_zoo_empty_layout) LinearLayout mEmptyLayout;
     @InjectView(R.id.fragment_zoo_recycler_view) RecyclerView mRecyclerView;
     @Inject Zoo mZoo;
 
@@ -36,6 +47,7 @@ public class ZooFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BaseApplication.get(getActivity()).inject(this);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -47,8 +59,81 @@ public class ZooFragment extends BaseFragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setAdapter(new ZooAdapter());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_zoo, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_zoo_add:
+                addAnimal();
+                break;
+            case R.id.menu_zoo_clear:
+                clearAnimals();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_ANIMAL) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    boolean isRemoved = data.getBooleanExtra(AnimalFragment.EXTRA_ANIMAL_IS_REMOVED, false);
+                    UUID id = (UUID) data.getSerializableExtra(AnimalFragment.EXTRA_ANIMAL_ID);
+                    if (isRemoved && id != null) {
+                        mZoo.remove(id);
+                        mRecyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    @OnClick(R.id.fragment_zoo_empty_layout)
+    public void onClickEmptyLayout() {
+        addAnimal();
+    }
+
+    private void updateUI() {
+        if (mZoo.size() > 0) {
+            mEmptyLayout.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void addAnimal() {
+        ((ZooAdapter) mRecyclerView.getAdapter()).add();
+        updateUI();
+    }
+
+    private void removeAnimal(int position) {
+        ((ZooAdapter) mRecyclerView.getAdapter()).remove(position);
+        updateUI();
+    }
+
+    private void clearAnimals() {
+        ((ZooAdapter) mRecyclerView.getAdapter()).clear();
+        updateUI();
     }
 
     public class ZooHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -71,8 +156,8 @@ public class ZooFragment extends BaseFragment {
         public void onClick(View v) {
             if (mAnimal != null) {
                 Intent intent = new Intent(getActivity(), AnimalActivity.class);
-                intent.putExtra(EXTRA_ANIMAL, mAnimal);
-                startActivity(intent);
+                intent.putExtra(EXTRA_ANIMAL_ID, mAnimal.getId());
+                startActivityForResult(intent, REQUEST_CODE_ANIMAL);
             }
         }
 
@@ -121,13 +206,28 @@ public class ZooFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(ZooHolder holder, int position) {
-            Animal animal = mZoo.asList().get(position);
+            Animal animal = mZoo.get(position);
             holder.bindCrime(animal);
         }
 
         @Override
         public int getItemCount() {
-            return mZoo.asList().size();
+            return mZoo.size();
+        }
+
+        public void add() {
+            mZoo.add();
+            notifyItemInserted(getItemCount());
+        }
+
+        public void remove(int position) {
+            mZoo.remove(position);
+            notifyItemRemoved(position);
+        }
+
+        public void clear() {
+            mZoo.clear();
+            notifyDataSetChanged();
         }
 
     }

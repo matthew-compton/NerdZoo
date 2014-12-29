@@ -17,6 +17,10 @@ public class Animal implements Serializable {
         this.mImageResourceId = imageResourceId;
     }
 
+    public UUID getId() {
+        return mId;
+    }
+
     public int getNameResourceId() {
         return mNameResourceId;
     }

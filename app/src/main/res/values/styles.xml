@@ -6,8 +6,34 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
-        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorPrimary">@color/text_toolbar_primary</item>
+        <item name="android:textColor">@color/text_toolbar_secondary</item>
+    </style>
+
+    <!-- TextViews -->
+    <style name="NormalTextView">
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="DrawerTextView" parent="NormalTextView">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TitleTextView" parent="NormalTextView">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DescriptionTextView" parent="NormalTextView">
         <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="EmptyTextView">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_large</item>
     </style>
 
 </resources>
