@@ -4,16 +4,8 @@
       tools:context=".ZooActivity">
 
     <item
-        android:id="@+id/menu_zoo_add"
-        android:title="@string/menu_zoo_add"
-        android:icon="@android:drawable/ic_menu_add"
-        android:orderInCategory="1"
-        app:showAsAction="always"/>
-
-    <item
         android:id="@+id/menu_zoo_clear"
         android:title="@string/menu_zoo_clear"
-        android:orderInCategory="2"
         app:showAsAction="never"/>
 
 </menu>

@@ -2,6 +2,7 @@ package com.bignerdranch.android.nerdzoo.controller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Outline;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -15,8 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,8 +43,9 @@ public class ZooFragment extends Fragment {
     public static final String EXTRA_ANIMAL_ID = "EXTRA_ANIMAL_ID";
     public static final int REQUEST_CODE_ANIMAL = 0;
 
-    @InjectView(R.id.fragment_zoo_empty_layout) LinearLayout mEmptyLayout;
     @InjectView(R.id.fragment_zoo_recycler_view) RecyclerView mRecyclerView;
+    @InjectView(R.id.fragment_zoo_fab) ImageButton mFloatingActionButton;
+
     @Inject Zoo mZoo;
 
     @Override
@@ -63,6 +66,16 @@ public class ZooFragment extends Fragment {
         mRecyclerView.setAdapter(new ZooAdapter());
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+
+        mFloatingActionButton.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                int diameter = getResources().getDimensionPixelSize(R.dimen.fab_diameter);
+                outline.setOval(0, 0, diameter, diameter);
+            }
+        });
+        mFloatingActionButton.setClipToOutline(true);
+
         return view;
     }
 
@@ -75,9 +88,6 @@ public class ZooFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_zoo_add:
-                addAnimal();
-                break;
             case R.id.menu_zoo_clear:
                 clearAnimals();
                 break;
@@ -102,40 +112,21 @@ public class ZooFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUI();
-    }
-
-    @OnClick(R.id.fragment_zoo_empty_layout)
-    public void onClickEmptyLayout() {
+    @OnClick(R.id.fragment_zoo_fab)
+    public void onClickFAB() {
         addAnimal();
-    }
-
-    private void updateUI() {
-        if (mZoo.size() > 0) {
-            mEmptyLayout.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            mRecyclerView.setVisibility(View.GONE);
-            mEmptyLayout.setVisibility(View.VISIBLE);
-        }
     }
 
     private void addAnimal() {
         ((ZooAdapter) mRecyclerView.getAdapter()).add();
-        updateUI();
     }
 
     private void removeAnimal(int position) {
         ((ZooAdapter) mRecyclerView.getAdapter()).remove(position);
-        updateUI();
     }
 
     private void clearAnimals() {
         ((ZooAdapter) mRecyclerView.getAdapter()).clear();
-        updateUI();
     }
 
     public class ZooHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

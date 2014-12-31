@@ -14,4 +14,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- Elevations -->
+    <dimen name="elevation_low">1dp</dimen>
+    <dimen name="elevation_high">4dp</dimen>
+
+    <!-- FAB -->
+    <dimen name="fab_diameter">48dp</dimen>
+
 </resources>
