@@ -3,6 +3,8 @@ package com.bignerdranch.android.nerdzoo.controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -157,7 +159,12 @@ public class ZooFragment extends Fragment {
             if (mAnimal != null) {
                 Intent intent = new Intent(getActivity(), AnimalActivity.class);
                 intent.putExtra(EXTRA_ANIMAL_ID, mAnimal.getId());
-                startActivityForResult(intent, REQUEST_CODE_ANIMAL);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(),
+                        mImageView,
+                        getString(R.string.transition_animal_image)
+                );
+                ActivityCompat.startActivityForResult(getActivity(), intent, REQUEST_CODE_ANIMAL, options.toBundle());
             }
         }
 

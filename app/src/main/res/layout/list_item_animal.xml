@@ -23,6 +23,7 @@
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:visibility="gone"
+            android:transitionName="@string/transition_animal_image"
             tools:src="@drawable/animal_lion"
             tools:visibility="visible"
             />
