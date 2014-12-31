@@ -45,7 +45,7 @@ public abstract class BaseNormalActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                super.onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
