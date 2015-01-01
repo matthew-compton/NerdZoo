@@ -129,4 +129,12 @@ public abstract class BaseDrawerActivity extends BaseActivity {
         mDrawerToggle.onConfigurationChanged(configuration);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+            mDrawerLayout.closeDrawers();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

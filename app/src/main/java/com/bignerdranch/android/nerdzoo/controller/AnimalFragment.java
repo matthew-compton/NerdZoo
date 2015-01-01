@@ -1,7 +1,5 @@
 package com.bignerdranch.android.nerdzoo.controller;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -75,10 +73,8 @@ public class AnimalFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_animal_remove:
-                Intent data = new Intent();
-                data.putExtra(EXTRA_ANIMAL_ID, mAnimal.getId());
-                data.putExtra(EXTRA_ANIMAL_IS_REMOVED, true);
-                getActivity().setResult(Activity.RESULT_OK, data);
+                int position = mZoo.findPositionById(mAnimal.getId());
+                mZoo.remove(position);
                 getActivity().finish();
                 break;
         }

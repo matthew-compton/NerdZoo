@@ -24,10 +24,6 @@ public class Zoo {
         mAnimalList = new ArrayList<Animal>();
     }
 
-    public List<Animal> asList() {
-        return mAnimalList;
-    }
-
     public Animal findAnimalById(UUID id) {
         for (Animal animal : mAnimalList) {
             if (id.equals(animal.getId())) {
@@ -35,6 +31,16 @@ public class Zoo {
             }
         }
         return null;
+    }
+
+    public int findPositionById(UUID id) {
+        for (int i = 0; i < mAnimalList.size(); i++) {
+            Animal animal = mAnimalList.get(i);
+            if (id.equals(animal.getId())) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     public int size() {
@@ -47,15 +53,6 @@ public class Zoo {
 
     public void add() {
         mAnimalList.add(generateRandomAnimal());
-    }
-
-    public void remove(UUID id) {
-        for (int i = 0; i < mAnimalList.size(); i++) {
-            if (id.equals(mAnimalList.get(i).getId())) {
-                mAnimalList.remove(i);
-                break;
-            }
-        }
     }
 
     public void remove(int position) {
