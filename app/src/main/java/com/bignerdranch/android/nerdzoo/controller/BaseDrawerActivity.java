@@ -27,6 +27,7 @@ public abstract class BaseDrawerActivity extends BaseActivity {
 
     @InjectView(R.id.drawer_layout) public DrawerLayout mDrawerLayout;
     @InjectView(R.id.drawer_list) public ListView mDrawerList;
+    private DrawerAdapter mDrawerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String[] mNavMenuTitles;
 
@@ -51,7 +52,8 @@ public abstract class BaseDrawerActivity extends BaseActivity {
         for (int i = 0; i < mNavMenuTitles.length; i++) {
             drawerItems.add(new DrawerItem(mNavMenuTitles[i], navMenuIcons.getResourceId(i, 0)));
         }
-        mDrawerList.setAdapter(new DrawerAdapter(getApplicationContext(), drawerItems));
+        mDrawerAdapter = new DrawerAdapter(getApplicationContext(), drawerItems);
+        mDrawerList.setAdapter(mDrawerAdapter);
         mDrawerList.setOnItemClickListener((parent, view, position, id) -> updateFragment(position));
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name) {
 
@@ -88,9 +90,9 @@ public abstract class BaseDrawerActivity extends BaseActivity {
                 break;
         }
 
-        setTitle(mNavMenuTitles[position]);
         mDrawerList.setItemChecked(position, true);
         mDrawerList.setSelection(position);
+        mDrawerAdapter.setSelection(position);
         mDrawerLayout.closeDrawer(mDrawerList);
 
         if (fragment != null) {

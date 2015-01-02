@@ -17,10 +17,12 @@ public class DrawerAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<DrawerItem> mDrawerItems;
+    private int mSelection;
 
     public DrawerAdapter(Context context, ArrayList<DrawerItem> drawerItems) {
         this.mContext = context;
         this.mDrawerItems = drawerItems;
+        this.mSelection = 0;
     }
 
     @Override
@@ -44,14 +46,20 @@ public class DrawerAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_item_drawer, null);
         }
+        DrawerItem drawerItem = mDrawerItems.get(position);
 
         ImageView icon = (ImageView) convertView.findViewById(R.id.list_item_drawer_icon);
         TextView title = (TextView) convertView.findViewById(R.id.list_item_drawer_title);
 
-        icon.setImageResource(mDrawerItems.get(position).getIcon());
-        title.setText(mDrawerItems.get(position).getTitle());
+        icon.setImageResource(drawerItem.getIcon());
+        title.setText(drawerItem.getTitle());
+        title.setTextColor((position == mSelection) ? mContext.getResources().getColor(R.color.text_toolbar_primary) : mContext.getResources().getColor(R.color.text_primary));
 
         return convertView;
+    }
+
+    public void setSelection(int position) {
+        mSelection = position;
     }
 
 }
