@@ -73,12 +73,6 @@ public class ZooFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mRecyclerView.getAdapter().notifyDataSetChanged();
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_zoo, menu);

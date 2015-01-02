@@ -3,9 +3,6 @@ package com.bignerdranch.android.nerdzoo.controller;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,9 +20,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class AnimalFragment extends Fragment {
-
-    public static final String EXTRA_ANIMAL_ID = "EXTRA_ANIMAL_ID";
-    public static final String EXTRA_ANIMAL_IS_REMOVED = "EXTRA_ANIMAL_IS_REMOVED";
 
     @InjectView(R.id.fragment_animal_image) ImageView mImageView;
     @Inject Zoo mZoo;
@@ -61,24 +55,6 @@ public class AnimalFragment extends Fragment {
         mImageView.setImageResource(mAnimal.getImageResourceId());
 
         return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_animal, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_animal_remove:
-                int position = mZoo.findPositionById(mAnimal.getId());
-                mZoo.remove(position);
-                getActivity().finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 }

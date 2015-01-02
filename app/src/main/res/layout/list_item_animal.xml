@@ -8,8 +8,9 @@
               android:padding="@dimen/padding_small"
               android:clickable="true"
               android:focusable="true"
-              android:background="@drawable/drawer_item_selector"
-              android:layout_marginBottom="@dimen/padding_small">
+              android:background="@drawable/list_item_selector"
+              android:layout_marginBottom="@dimen/padding_small"
+              android:elevation="@dimen/elevation_high">
 
     <FrameLayout
         android:id="@+id/list_item_animal_icon"
