@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +24,7 @@ import com.bignerdranch.android.nerdzoo.BaseApplication;
 import com.bignerdranch.android.nerdzoo.R;
 import com.bignerdranch.android.nerdzoo.model.Animal;
 import com.bignerdranch.android.nerdzoo.model.Zoo;
-import com.bignerdranch.android.nerdzoo.view.DividerItemDecoration;
+import com.bignerdranch.android.nerdzoo.library.SlideInOutRightItemAnimator;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -58,10 +57,8 @@ public class ZooFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setAdapter(new ZooAdapter());
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        mRecyclerView.setItemAnimator(new SlideInOutRightItemAnimator(mRecyclerView));
 
         mFloatingActionButton.setOutlineProvider(new ViewOutlineProvider() {
             @Override

@@ -8,14 +8,16 @@
               android:padding="@dimen/padding_small"
               android:clickable="true"
               android:focusable="true"
-              android:background="@drawable/drawer_item_selector">
+              android:background="@drawable/drawer_item_selector"
+              android:layout_marginBottom="@dimen/padding_small">
 
     <FrameLayout
         android:id="@+id/list_item_animal_icon"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_marginRight="@dimen/padding_normal">
+        android:layout_marginRight="@dimen/padding_normal"
+        >
 
         <ImageView
             android:id="@+id/list_item_animal_image"
