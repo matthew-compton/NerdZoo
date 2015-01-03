@@ -44,7 +44,7 @@ public class ZooItemAnimator extends BaseItemAnimator {
 
     @Override
     protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
-        ViewCompat.setTranslationX(holder.itemView, mSwipeDirection.getSign() * mRecyclerView.getWidth());
+        ViewCompat.setTranslationX(holder.itemView, +mRecyclerView.getWidth());
     }
 
     protected void animateAddImpl(final RecyclerView.ViewHolder holder) {
