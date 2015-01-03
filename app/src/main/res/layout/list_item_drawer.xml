@@ -7,7 +7,7 @@
               android:orientation="horizontal"
               android:padding="@dimen/padding_small"
               android:elevation="@dimen/elevation_high"
-              android:background="@drawable/drawer_item_selector">
+              android:background="@drawable/background_drawer_item_selector">
 
     <ImageView
         android:id="@+id/list_item_drawer_icon"

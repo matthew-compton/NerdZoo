@@ -30,7 +30,7 @@
             android:divider="@color/dividers"
             android:dividerHeight="1dp"
             android:background="@color/background"
-            android:listSelector="@drawable/drawer_item_selector"
+            android:listSelector="@drawable/background_drawer_item_selector"
             />
 
     </android.support.v4.widget.DrawerLayout>

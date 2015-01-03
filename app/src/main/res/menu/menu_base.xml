@@ -1,6 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context=".ZooActivity">
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_base_refresh"
+        android:title="@string/menu_zoo_refresh"
+        android:icon="@drawable/menu_refresh"
+        app:showAsAction="always"/>
 
 </menu>

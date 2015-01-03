@@ -96,6 +96,9 @@ public class ZooFragment extends Fragment {
             case R.id.menu_zoo_clear:
                 clearAnimals();
                 break;
+            case R.id.menu_base_refresh:
+                mRecyclerView.getAdapter().notifyDataSetChanged();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
