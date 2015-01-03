@@ -119,7 +119,7 @@ public class ZooFragment extends Fragment {
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
-    public class ZooHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ZooHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.list_item_animal_image) public ImageView mImageView;
         @InjectView(R.id.list_item_animal_progress) public ProgressBar mProgressBar;
@@ -132,12 +132,7 @@ public class ZooFragment extends Fragment {
         public ZooHolder(View view) {
             super(view);
             ButterKnife.inject(this, view);
-            setupOnClickListener(view);
             setupOnGestureListener(view);
-        }
-
-        private void setupOnClickListener(View view) {
-            view.setOnClickListener(ZooHolder.this);
         }
 
         private void setupOnGestureListener(View view) {
@@ -179,20 +174,6 @@ public class ZooFragment extends Fragment {
             }
         }
 
-        @Override
-        public void onClick(View v) {
-            if (mAnimal != null) {
-                Intent intent = new Intent(getActivity(), AnimalActivity.class);
-                intent.putExtra(EXTRA_ANIMAL_ID, mAnimal.getId());
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        mImageView,
-                        getString(R.string.transition_animal_image)
-                );
-                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
-            }
-        }
-
         private class ZooOnGestureListener extends GestureDetector.SimpleOnGestureListener {
 
             private static final int SWIPE_MIN_DISTANCE = 120;
@@ -216,9 +197,20 @@ public class ZooFragment extends Fragment {
             }
 
             @Override
-            public boolean onDown(MotionEvent e) {
-                return true;
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                if (mAnimal != null) {
+                    Intent intent = new Intent(getActivity(), AnimalActivity.class);
+                    intent.putExtra(EXTRA_ANIMAL_ID, mAnimal.getId());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            getActivity(),
+                            mImageView,
+                            getString(R.string.transition_animal_image)
+                    );
+                    ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+                }
+                return super.onSingleTapConfirmed(e);
             }
+
         }
 
     }
