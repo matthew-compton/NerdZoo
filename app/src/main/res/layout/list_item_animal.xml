@@ -4,14 +4,14 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="?android:attr/listPreferredItemHeightLarge"
+              android:layout_margin="@dimen/padding_small"
+              android:id="@+id/list_item_animal"
               android:orientation="horizontal"
               android:padding="@dimen/padding_small"
               android:clickable="true"
               android:focusable="true"
-              android:background="@drawable/list_item_selector"
-              android:layout_marginBottom="@dimen/padding_small"
               android:elevation="@dimen/elevation_high"
-              android:id="@+id/list_item_animal">
+              android:background="@drawable/list_item_selector">
 
     <FrameLayout
         android:id="@+id/list_item_animal_icon"
