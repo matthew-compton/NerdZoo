@@ -1,44 +1,39 @@
-package com.bignerdranch.android.nerdzoo.library;
-
-/*
- * ******************************************************************************
- *   Copyright (c) 2014 Gabriele Mariotti.
- *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
- *  *****************************************************************************
- */
+package com.bignerdranch.android.nerdzoo.anim;
 
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-/**
- * @see android.support.v7.widget.RecyclerView#setItemAnimator(android.support.v7.widget.RecyclerView.ItemAnimator)
- */
-public class SlideInOutRightItemAnimator extends BaseItemAnimator {
+public class ZooItemAnimator extends BaseItemAnimator {
 
-    public SlideInOutRightItemAnimator(RecyclerView recyclerView) {
+    private SwipeDirection mSwipeDirection;
+
+    public ZooItemAnimator(RecyclerView recyclerView) {
         super(recyclerView);
+        mSwipeDirection = SwipeDirection.RIGHT;
+    }
+
+    public enum SwipeDirection {
+        LEFT,
+        RIGHT;
+
+        public int getSign() {
+            return this == RIGHT ? 1 : -1;
+        }
+    }
+
+    public void setSwipeDirection(SwipeDirection swipeDirection) {
+        mSwipeDirection = swipeDirection;
     }
 
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         final View view = holder.itemView;
         ViewCompat.animate(view).cancel();
         ViewCompat.animate(view).setDuration(getRemoveDuration()).
-                translationX(+mRecyclerView.getWidth()).setListener(new VpaListenerAdapter() {
+                translationX(mSwipeDirection.getSign() * mRecyclerView.getWidth()).setListener(new VpaListenerAdapter() {
             @Override
             public void onAnimationEnd(View view) {
-                ViewCompat.setTranslationX(view, +mRecyclerView.getWidth());
+                ViewCompat.setTranslationX(view, mSwipeDirection.getSign() * mRecyclerView.getWidth());
                 dispatchRemoveFinished(holder);
                 mRemoveAnimations.remove(holder);
                 dispatchFinishedWhenDone();
@@ -49,7 +44,7 @@ public class SlideInOutRightItemAnimator extends BaseItemAnimator {
 
     @Override
     protected void prepareAnimateAdd(RecyclerView.ViewHolder holder) {
-        ViewCompat.setTranslationX(holder.itemView, +mRecyclerView.getWidth());
+        ViewCompat.setTranslationX(holder.itemView, mSwipeDirection.getSign() * mRecyclerView.getWidth());
     }
 
     protected void animateAddImpl(final RecyclerView.ViewHolder holder) {

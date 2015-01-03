@@ -8,10 +8,12 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
@@ -22,9 +24,9 @@ import android.widget.TextView;
 
 import com.bignerdranch.android.nerdzoo.BaseApplication;
 import com.bignerdranch.android.nerdzoo.R;
+import com.bignerdranch.android.nerdzoo.anim.ZooItemAnimator;
 import com.bignerdranch.android.nerdzoo.model.Animal;
 import com.bignerdranch.android.nerdzoo.model.Zoo;
-import com.bignerdranch.android.nerdzoo.library.SlideInOutRightItemAnimator;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +35,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class ZooFragment extends Fragment {
 
@@ -42,6 +45,8 @@ public class ZooFragment extends Fragment {
     @InjectView(R.id.fragment_zoo_fab) ImageButton mFloatingActionButton;
 
     @Inject Zoo mZoo;
+
+    private ZooItemAnimator mZooItemAnimator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +63,16 @@ public class ZooFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(new ZooAdapter());
-        mRecyclerView.setItemAnimator(new SlideInOutRightItemAnimator(mRecyclerView));
 
+        mZooItemAnimator = new ZooItemAnimator(mRecyclerView);
+        mRecyclerView.setItemAnimator(mZooItemAnimator);
+
+        setupFloatingActionButton();
+
+        return view;
+    }
+
+    private void setupFloatingActionButton() {
         mFloatingActionButton.setOutlineProvider(new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
@@ -68,8 +81,6 @@ public class ZooFragment extends Fragment {
             }
         });
         mFloatingActionButton.setClipToOutline(true);
-
-        return view;
     }
 
     @Override
@@ -121,21 +132,18 @@ public class ZooFragment extends Fragment {
         public ZooHolder(View view) {
             super(view);
             ButterKnife.inject(this, view);
-            view.setOnClickListener(this);
+            setupOnClickListener(view);
+            setupOnGestureListener(view);
         }
 
-        @Override
-        public void onClick(View v) {
-            if (mAnimal != null) {
-                Intent intent = new Intent(getActivity(), AnimalActivity.class);
-                intent.putExtra(EXTRA_ANIMAL_ID, mAnimal.getId());
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        mImageView,
-                        getString(R.string.transition_animal_image)
-                );
-                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
-            }
+        private void setupOnClickListener(View view) {
+            view.setOnClickListener(ZooHolder.this);
+        }
+
+        private void setupOnGestureListener(View view) {
+            GestureDetector gestureDetector = new GestureDetector(new ZooOnGestureListener());
+            View.OnTouchListener gestureListener = (v, event) -> gestureDetector.onTouchEvent(event);
+            view.setOnTouchListener(gestureListener);
         }
 
         public void bindCrime(Animal animal) {
@@ -168,6 +176,48 @@ public class ZooFragment extends Fragment {
             } else {
                 mProgressBar.setVisibility(View.GONE);
                 mImageView.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mAnimal != null) {
+                Intent intent = new Intent(getActivity(), AnimalActivity.class);
+                intent.putExtra(EXTRA_ANIMAL_ID, mAnimal.getId());
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(),
+                        mImageView,
+                        getString(R.string.transition_animal_image)
+                );
+                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+            }
+        }
+
+        private class ZooOnGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+            private static final int SWIPE_MIN_DISTANCE = 120;
+            private static final int SWIPE_MAX_OFF_PATH = 250;
+            private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                    return false;
+                if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    Timber.i("Left Swipe");
+                    mZooItemAnimator.setSwipeDirection(ZooItemAnimator.SwipeDirection.LEFT);
+                    removeAnimal(mZoo.findPositionById(mAnimal.getId()));
+                } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    Timber.i("Right Swipe");
+                    mZooItemAnimator.setSwipeDirection(ZooItemAnimator.SwipeDirection.RIGHT);
+                    removeAnimal(mZoo.findPositionById(mAnimal.getId()));
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
             }
         }
 

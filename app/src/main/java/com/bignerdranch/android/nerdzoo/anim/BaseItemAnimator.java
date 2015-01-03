@@ -1,7 +1,8 @@
-package com.bignerdranch.android.nerdzoo.library;
+package com.bignerdranch.android.nerdzoo.anim;
 
 /*
- * This code is cloned from DefaultItemAnimator provided by support library v7-recyclerView
+ * This code is cloned from Gabriele Mariotti's RecyclerViewItemAnimators library,
+ * which in-turn is cloned from DefaultItemAnimator provided by support library v7-recyclerView
  *
  * Copyright (C) 2014 The Android Open Source Project
  *
@@ -333,5 +334,4 @@ public abstract class BaseItemAnimator extends RecyclerView.ItemAnimator {
         }
     }
 
-    ;
 }
