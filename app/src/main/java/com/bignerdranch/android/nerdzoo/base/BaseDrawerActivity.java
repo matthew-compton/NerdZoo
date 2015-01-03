@@ -1,4 +1,4 @@
-package com.bignerdranch.android.nerdzoo.controller;
+package com.bignerdranch.android.nerdzoo.base;
 
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -14,6 +14,8 @@ import android.widget.ListView;
 
 import com.bignerdranch.android.nerdzoo.BaseApplication;
 import com.bignerdranch.android.nerdzoo.R;
+import com.bignerdranch.android.nerdzoo.controller.AboutFragment;
+import com.bignerdranch.android.nerdzoo.controller.ZooFragment;
 import com.bignerdranch.android.nerdzoo.drawer.DrawerAdapter;
 import com.bignerdranch.android.nerdzoo.drawer.DrawerItem;
 
@@ -139,4 +141,5 @@ public abstract class BaseDrawerActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
+
 }

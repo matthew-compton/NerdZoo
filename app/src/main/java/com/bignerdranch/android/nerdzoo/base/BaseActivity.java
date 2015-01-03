@@ -1,11 +1,10 @@
-package com.bignerdranch.android.nerdzoo.controller;
+package com.bignerdranch.android.nerdzoo.base;
 
 import android.app.ActivityManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -23,8 +22,6 @@ import timber.log.Timber;
 public abstract class BaseActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar) public Toolbar mToolbar;
-
-    protected abstract Fragment createFragment();
 
     protected abstract void setupInitialFragment();
 

@@ -1,6 +1,7 @@
 package com.bignerdranch.android.nerdzoo.controller;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import com.bignerdranch.android.nerdzoo.R;
 
 import butterknife.ButterKnife;
 
-public class AboutFragment extends BaseFragment {
+public class AboutFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

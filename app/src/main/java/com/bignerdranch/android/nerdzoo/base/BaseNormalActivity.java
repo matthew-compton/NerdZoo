@@ -1,4 +1,4 @@
-package com.bignerdranch.android.nerdzoo.controller;
+package com.bignerdranch.android.nerdzoo.base;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
