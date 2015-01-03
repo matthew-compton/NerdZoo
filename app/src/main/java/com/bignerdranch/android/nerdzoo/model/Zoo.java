@@ -13,6 +13,8 @@ import javax.inject.Singleton;
 @Singleton
 public class Zoo {
 
+    private static final int TYPES_OF_ANIMALS = 6;
+
     private List<Animal> mAnimalList;
 
     @Inject
@@ -63,9 +65,13 @@ public class Zoo {
         mAnimalList.clear();
     }
 
+    public static int getTypesOfAnimals() {
+        return TYPES_OF_ANIMALS;
+    }
+
     private Animal generateRandomAnimal() {
         Random r = new Random();
-        int random = r.nextInt(6) + 1;
+        int random = r.nextInt(TYPES_OF_ANIMALS) + 1;
         switch (random) {
             case 1:
                 return new Animal(UUID.randomUUID(), R.string.animal_lion, R.string.animal_lion_description, R.drawable.animal_lion);
