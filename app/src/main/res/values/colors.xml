@@ -15,7 +15,7 @@
     <color name="text_primary">#D9212121</color>
     <color name="text_secondary">#D9727272</color>
 
-    <color name="background">#FFFFFF</color>
+    <color name="background">#FFEEEEEE</color>
     <color name="background_selectable_item">#FFFFFF</color>
 
     <color name="icons">#FFFFFF</color>
