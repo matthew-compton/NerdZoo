@@ -10,7 +10,8 @@
               android:focusable="true"
               android:background="@drawable/list_item_selector"
               android:layout_marginBottom="@dimen/padding_small"
-              android:elevation="@dimen/elevation_high">
+              android:elevation="@dimen/elevation_high"
+              android:id="@+id/list_item_animal">
 
     <FrameLayout
         android:id="@+id/list_item_animal_icon"

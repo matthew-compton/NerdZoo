@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -121,6 +122,7 @@ public class ZooFragment extends Fragment {
 
     public class ZooHolder extends RecyclerView.ViewHolder {
 
+        @InjectView(R.id.list_item_animal) public LinearLayout mLinearLayout;
         @InjectView(R.id.list_item_animal_image) public ImageView mImageView;
         @InjectView(R.id.list_item_animal_progress) public ProgressBar mProgressBar;
         @InjectView(R.id.list_item_animal_title) public TextView mTitleTextView;
@@ -198,6 +200,7 @@ public class ZooFragment extends Fragment {
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
+                Timber.i("Single Tap");
                 if (mAnimal != null) {
                     Intent intent = new Intent(getActivity(), AnimalActivity.class);
                     intent.putExtra(EXTRA_ANIMAL_ID, mAnimal.getId());
@@ -211,6 +214,12 @@ public class ZooFragment extends Fragment {
                 return super.onSingleTapConfirmed(e);
             }
 
+            @Override
+            public void onLongPress(MotionEvent e) {
+                Timber.i("Long Press");
+                mLinearLayout.setSelected(!mLinearLayout.isSelected());
+                super.onLongPress(e);
+            }
         }
 
     }
