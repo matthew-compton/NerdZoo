@@ -5,6 +5,10 @@
     <color name="primary_dark">#F57C00</color>
     <color name="primary_light">#FFE0B2</color>
     <color name="accent">#FF5722</color>
+    <color name="complement_primary">#2196F3</color>
+    <color name="complement_primary_dark">#1976D2</color>
+    <color name="complement_primary_light">#BBDEFB</color>
+    <color name="complement_accent">#536DFE</color>
 
     <color name="text_toolbar_primary">#FFFFFF</color>
     <color name="text_toolbar_secondary">#000000</color>
