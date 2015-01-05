@@ -20,5 +20,6 @@
 
     <!-- FAB -->
     <dimen name="fab_diameter">48dp</dimen>
+    <dimen name="fab_remove_margin_bottom">80dp</dimen>
 
 </resources>

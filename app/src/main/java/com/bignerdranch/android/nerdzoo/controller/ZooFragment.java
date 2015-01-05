@@ -43,10 +43,12 @@ public class ZooFragment extends Fragment {
     public static final String EXTRA_ANIMAL_ID = "EXTRA_ANIMAL_ID";
 
     @InjectView(R.id.fragment_zoo_recycler_view) RecyclerView mRecyclerView;
-    @InjectView(R.id.fragment_zoo_fab) ImageButton mFloatingActionButton;
+    @InjectView(R.id.fragment_zoo_fab_remove) ImageButton mRemoveFAB;
+    @InjectView(R.id.fragment_zoo_fab_add) ImageButton mAddFAB;
 
     @Inject Zoo mZoo;
 
+    private Integer mSelectedPosition;
     private ZooItemAnimator mZooItemAnimator;
 
     @Override
@@ -61,27 +63,27 @@ public class ZooFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_zoo, container, false);
         ButterKnife.inject(this, view);
 
+        mZooItemAnimator = new ZooItemAnimator(mRecyclerView);
+        mRecyclerView.setItemAnimator(mZooItemAnimator);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(new ZooAdapter());
 
-        mZooItemAnimator = new ZooItemAnimator(mRecyclerView);
-        mRecyclerView.setItemAnimator(mZooItemAnimator);
-
-        setupFloatingActionButton();
+        setupFloatingActionButton(mAddFAB);
+        setupFloatingActionButton(mRemoveFAB);
 
         return view;
     }
 
-    private void setupFloatingActionButton() {
-        mFloatingActionButton.setOutlineProvider(new ViewOutlineProvider() {
+    private void setupFloatingActionButton(ImageButton imageButton) {
+        imageButton.setOutlineProvider(new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
                 int diameter = getResources().getDimensionPixelSize(R.dimen.fab_diameter);
                 outline.setOval(0, 0, diameter, diameter);
             }
         });
-        mFloatingActionButton.setClipToOutline(true);
+        imageButton.setClipToOutline(true);
     }
 
     @Override
@@ -103,9 +105,14 @@ public class ZooFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.fragment_zoo_fab)
-    public void onClickFAB() {
+    @OnClick(R.id.fragment_zoo_fab_add)
+    public void onClickAddFAB() {
         addAnimal();
+    }
+
+    @OnClick(R.id.fragment_zoo_fab_remove)
+    public void onClickRemoveFAB() {
+        removeSelectedAnimal();
     }
 
     private void addAnimal() {
@@ -121,7 +128,26 @@ public class ZooFragment extends Fragment {
     private void clearAnimals() {
         int size = mZoo.size();
         mZoo.clear();
+        mZooItemAnimator.setSwipeDirection(ZooItemAnimator.SwipeDirection.LEFT);
         mRecyclerView.getAdapter().notifyItemRangeRemoved(0, size);
+        deselectAnimal();
+    }
+
+    private void removeSelectedAnimal() {
+        if (mSelectedPosition != null) {
+            mZooItemAnimator.setSwipeDirection(ZooItemAnimator.SwipeDirection.LEFT);
+            mRecyclerView.findViewHolderForPosition(mSelectedPosition).itemView.setSelected(false);
+            removeAnimal(mSelectedPosition);
+            mSelectedPosition = null;
+
+        }
+    }
+
+    private void deselectAnimal() {
+        if (mSelectedPosition != null) {
+            mRecyclerView.findViewHolderForPosition(mSelectedPosition).itemView.setSelected(false);
+            mSelectedPosition = null;
+        }
     }
 
     public class ZooHolder extends RecyclerView.ViewHolder {
@@ -139,6 +165,7 @@ public class ZooFragment extends Fragment {
             super(view);
             ButterKnife.inject(this, view);
             setupOnGestureListener(view);
+            view.setSelected(false);
         }
 
         private void setupOnGestureListener(View view) {
@@ -150,6 +177,10 @@ public class ZooFragment extends Fragment {
         public void bindCrime(Animal animal) {
             mAnimal = animal;
             mIsLoading = true;
+
+            int position = mZoo.findPositionById(mAnimal.getId());
+            itemView.setSelected(mSelectedPosition != null && position == mSelectedPosition.intValue());
+
             mTitleTextView.setText(mAnimal.getNameResourceId());
             mDescriptionTextView.setText(mAnimal.getDescriptionResourceId());
             Picasso.with(getActivity())
@@ -188,18 +219,27 @@ public class ZooFragment extends Fragment {
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
                     return false;
+                }
                 if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                     Timber.i("Left Swipe");
                     mZooItemAnimator.setSwipeDirection(ZooItemAnimator.SwipeDirection.LEFT);
-                    removeAnimal(mZoo.findPositionById(mAnimal.getId()));
+                    swipeToRemove();
                 } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                     Timber.i("Right Swipe");
                     mZooItemAnimator.setSwipeDirection(ZooItemAnimator.SwipeDirection.RIGHT);
-                    removeAnimal(mZoo.findPositionById(mAnimal.getId()));
+                    swipeToRemove();
                 }
                 return false;
+            }
+
+            private void swipeToRemove() {
+                int position = mZoo.findPositionById(mAnimal.getId());
+                if (mSelectedPosition != null && position == mSelectedPosition.intValue()) {
+                    deselectAnimal();
+                }
+                removeAnimal(position);
             }
 
             @Override
@@ -221,9 +261,21 @@ public class ZooFragment extends Fragment {
             @Override
             public void onLongPress(MotionEvent e) {
                 Timber.i("Long Press");
-                mLinearLayout.setSelected(!mLinearLayout.isSelected());
+                int position = mZoo.findPositionById(mAnimal.getId());
+                if (mSelectedPosition == null) {
+                    mSelectedPosition = position;
+                    mLinearLayout.setSelected(true);
+                } else if (mSelectedPosition.intValue() != position) {
+                    mLinearLayout.setSelected(true);
+                    mRecyclerView.findViewHolderForPosition(mSelectedPosition).itemView.setSelected(false);
+                    mSelectedPosition = position;
+                } else {
+                    mSelectedPosition = null;
+                    mLinearLayout.setSelected(false);
+                }
                 super.onLongPress(e);
             }
+
         }
 
     }

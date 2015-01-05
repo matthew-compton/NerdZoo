@@ -12,13 +12,27 @@
         />
 
     <ImageButton
-        android:id="@+id/fragment_zoo_fab"
+        android:id="@+id/fragment_zoo_fab_remove"
+        android:layout_width="@dimen/fab_diameter"
+        android:layout_height="@dimen/fab_diameter"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/fab_remove_margin_bottom"
+        android:layout_marginRight="@dimen/padding_large"
+        android:background="@drawable/ripple_fab_remove"
+        android:src="@android:drawable/ic_input_delete"
+        android:tint="@android:color/white"
+        android:elevation="@dimen/elevation_low"
+        android:stateListAnimator="@anim/fab_elevation"
+        />
+
+    <ImageButton
+        android:id="@+id/fragment_zoo_fab_add"
         android:layout_width="@dimen/fab_diameter"
         android:layout_height="@dimen/fab_diameter"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="@dimen/padding_large"
         android:layout_marginRight="@dimen/padding_large"
-        android:background="@drawable/fab_ripple"
+        android:background="@drawable/ripple_fab_add"
         android:src="@android:drawable/ic_input_add"
         android:tint="@android:color/white"
         android:elevation="@dimen/elevation_low"
