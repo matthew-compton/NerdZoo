@@ -1,18 +1,17 @@
 package com.bignerdranch.android.nerdzoo.controller;
 
-import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bignerdranch.android.nerdzoo.BaseApplication;
 import com.bignerdranch.android.nerdzoo.R;
+import com.bignerdranch.android.nerdzoo.anim.RevealAnimator;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -39,7 +38,7 @@ public class AboutFragment extends Fragment {
                 @Override
                 public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                     v.removeOnLayoutChangeListener(this);
-                    setupRevealAnimation(mAboutTextView);
+                    RevealAnimator.reveal(mAboutTextView);
                 }
             });
         }
@@ -47,14 +46,5 @@ public class AboutFragment extends Fragment {
         return view;
     }
 
-    private void setupRevealAnimation(View view) {
-        int cx = (view.getLeft() + view.getRight()) / 2;
-        int cy = (view.getTop() + view.getBottom()) / 2;
-        int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, finalRadius);
-        anim.setDuration(1000);
-        view.setVisibility(View.VISIBLE);
-        anim.start();
-    }
 
 }

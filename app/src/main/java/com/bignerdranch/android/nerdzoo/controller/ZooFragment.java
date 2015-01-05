@@ -119,8 +119,9 @@ public class ZooFragment extends Fragment {
     }
 
     private void clearAnimals() {
+        int size = mZoo.size();
         mZoo.clear();
-        mRecyclerView.getAdapter().notifyDataSetChanged();
+        mRecyclerView.getAdapter().notifyItemRangeRemoved(0, size);
     }
 
     public class ZooHolder extends RecyclerView.ViewHolder {
