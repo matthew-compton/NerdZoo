@@ -21,8 +21,13 @@
     </array>
 
     <!-- Menus -->
-    <string name="menu_zoo_refresh">Refresh</string>
+    <string name="menu_base_refresh">Refresh</string>
+    <string name="menu_base_about">About</string>
     <string name="menu_zoo_clear">Clear</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_about_title">About</string>
+    <string name="dialog_about_content">NerdZoo is a sample application designed to show off different Android Lollipop animations.</string>
 
     <!-- Animals -->
     <string name="animal_lion">Lion</string>

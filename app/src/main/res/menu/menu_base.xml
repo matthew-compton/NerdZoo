@@ -3,8 +3,14 @@
 
     <item
         android:id="@+id/menu_base_refresh"
-        android:title="@string/menu_zoo_refresh"
+        android:title="@string/menu_base_refresh"
         android:icon="@drawable/menu_refresh"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_base_about"
+        android:title="@string/menu_base_about"
+        android:orderInCategory="-999"
+        app:showAsAction="never"/>
 
 </menu>

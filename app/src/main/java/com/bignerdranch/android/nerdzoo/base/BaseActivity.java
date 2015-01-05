@@ -10,8 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.ViewConfiguration;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bignerdranch.android.nerdzoo.R;
 
 import java.lang.reflect.Field;
@@ -66,6 +68,23 @@ public abstract class BaseActivity extends ActionBarActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_base, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_base_about:
+                new MaterialDialog.Builder(this)
+                        .title(R.string.dialog_about_title)
+                        .content(R.string.dialog_about_content)
+                        .positiveText(android.R.string.ok).
+                        show();
+                return true;
+            default:
+                return super.
+
+                        onOptionsItemSelected(item);
+        }
     }
 
 }

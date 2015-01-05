@@ -40,4 +40,5 @@ dependencies {
     provided 'com.squareup.dagger:dagger-compiler:1.2.2'
 
     compile 'net.orfjackal.retrolambda:retrolambda:1.6.1'
+    compile 'com.afollestad:material-dialogs:0.5.7'
 }

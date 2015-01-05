@@ -19,6 +19,7 @@ Libraries
 - [Timber](https://github.com/JakeWharton/timber)
 - [Butter Knife](https://jakewharton.github.io/butterknife)
 - [Retrolambda](https://github.com/orfjackal/retrolambda)
+- [Material Dialogs](https://github.com/afollestad/material-dialogs)
 
 Contributing
 ---
