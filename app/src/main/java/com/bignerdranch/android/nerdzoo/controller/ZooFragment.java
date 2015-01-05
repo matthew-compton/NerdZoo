@@ -121,32 +121,41 @@ public class ZooFragment extends Fragment {
     }
 
     private void removeAnimal(int position) {
+        if (mSelectedPosition != null && mSelectedPosition.intValue() == position) {
+            deselectPosition();
+        }
         mZoo.remove(position);
         mRecyclerView.getAdapter().notifyItemRemoved(position);
     }
 
     private void clearAnimals() {
+        mZooItemAnimator.setAnimationDirection(ZooItemAnimator.AnimationDirection.LEFT);
+        if (mSelectedPosition != null) {
+            deselectPosition();
+        }
         int size = mZoo.size();
         mZoo.clear();
-        mZooItemAnimator.setSwipeDirection(ZooItemAnimator.SwipeDirection.LEFT);
         mRecyclerView.getAdapter().notifyItemRangeRemoved(0, size);
-        deselectAnimal();
     }
 
     private void removeSelectedAnimal() {
         if (mSelectedPosition != null) {
-            mZooItemAnimator.setSwipeDirection(ZooItemAnimator.SwipeDirection.LEFT);
-            mRecyclerView.findViewHolderForPosition(mSelectedPosition).itemView.setSelected(false);
-            removeAnimal(mSelectedPosition);
-            mSelectedPosition = null;
-
+            mZooItemAnimator.setAnimationDirection(ZooItemAnimator.AnimationDirection.LEFT);
+            removeAnimal(mSelectedPosition.intValue());
         }
     }
 
-    private void deselectAnimal() {
+    private void deselectPosition() {
         if (mSelectedPosition != null) {
             mRecyclerView.findViewHolderForPosition(mSelectedPosition).itemView.setSelected(false);
             mSelectedPosition = null;
+        }
+    }
+
+    private void selectPosition(Integer selectedPosition) {
+        mSelectedPosition = selectedPosition;
+        if (mSelectedPosition != null) {
+            mRecyclerView.findViewHolderForPosition(mSelectedPosition).itemView.setSelected(true);
         }
     }
 
@@ -177,10 +186,6 @@ public class ZooFragment extends Fragment {
         public void bindCrime(Animal animal) {
             mAnimal = animal;
             mIsLoading = true;
-
-            int position = mZoo.findPositionById(mAnimal.getId());
-            itemView.setSelected(mSelectedPosition != null && position == mSelectedPosition.intValue());
-
             mTitleTextView.setText(mAnimal.getNameResourceId());
             mDescriptionTextView.setText(mAnimal.getDescriptionResourceId());
             Picasso.with(getActivity())
@@ -224,11 +229,11 @@ public class ZooFragment extends Fragment {
                 }
                 if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                     Timber.i("Left Swipe");
-                    mZooItemAnimator.setSwipeDirection(ZooItemAnimator.SwipeDirection.LEFT);
+                    mZooItemAnimator.setAnimationDirection(ZooItemAnimator.AnimationDirection.LEFT);
                     swipeToRemove();
                 } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                     Timber.i("Right Swipe");
-                    mZooItemAnimator.setSwipeDirection(ZooItemAnimator.SwipeDirection.RIGHT);
+                    mZooItemAnimator.setAnimationDirection(ZooItemAnimator.AnimationDirection.RIGHT);
                     swipeToRemove();
                 }
                 return false;
@@ -236,9 +241,6 @@ public class ZooFragment extends Fragment {
 
             private void swipeToRemove() {
                 int position = mZoo.findPositionById(mAnimal.getId());
-                if (mSelectedPosition != null && position == mSelectedPosition.intValue()) {
-                    deselectAnimal();
-                }
                 removeAnimal(position);
             }
 
@@ -263,15 +265,12 @@ public class ZooFragment extends Fragment {
                 Timber.i("Long Press");
                 int position = mZoo.findPositionById(mAnimal.getId());
                 if (mSelectedPosition == null) {
-                    mSelectedPosition = position;
-                    mLinearLayout.setSelected(true);
+                    selectPosition(position);
                 } else if (mSelectedPosition.intValue() != position) {
-                    mLinearLayout.setSelected(true);
-                    mRecyclerView.findViewHolderForPosition(mSelectedPosition).itemView.setSelected(false);
-                    mSelectedPosition = position;
+                    deselectPosition();
+                    selectPosition(position);
                 } else {
-                    mSelectedPosition = null;
-                    mLinearLayout.setSelected(false);
+                    selectPosition(null);
                 }
                 super.onLongPress(e);
             }

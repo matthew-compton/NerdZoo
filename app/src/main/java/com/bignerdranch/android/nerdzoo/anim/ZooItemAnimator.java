@@ -6,14 +6,14 @@ import android.view.View;
 
 public class ZooItemAnimator extends BaseItemAnimator {
 
-    private SwipeDirection mSwipeDirection;
+    private AnimationDirection mAnimationDirection;
 
     public ZooItemAnimator(RecyclerView recyclerView) {
         super(recyclerView);
-        mSwipeDirection = SwipeDirection.RIGHT;
+        mAnimationDirection = AnimationDirection.RIGHT;
     }
 
-    public enum SwipeDirection {
+    public enum AnimationDirection {
         LEFT,
         RIGHT;
 
@@ -22,18 +22,18 @@ public class ZooItemAnimator extends BaseItemAnimator {
         }
     }
 
-    public void setSwipeDirection(SwipeDirection swipeDirection) {
-        mSwipeDirection = swipeDirection;
+    public void setAnimationDirection(AnimationDirection animationDirection) {
+        mAnimationDirection = animationDirection;
     }
 
     protected void animateRemoveImpl(final RecyclerView.ViewHolder holder) {
         final View view = holder.itemView;
         ViewCompat.animate(view).cancel();
         ViewCompat.animate(view).setDuration(getRemoveDuration()).
-                translationX(mSwipeDirection.getSign() * mRecyclerView.getWidth()).setListener(new VpaListenerAdapter() {
+                translationX(mAnimationDirection.getSign() * mRecyclerView.getWidth()).setListener(new VpaListenerAdapter() {
             @Override
             public void onAnimationEnd(View view) {
-                ViewCompat.setTranslationX(view, mSwipeDirection.getSign() * mRecyclerView.getWidth());
+                ViewCompat.setTranslationX(view, mAnimationDirection.getSign() * mRecyclerView.getWidth());
                 dispatchRemoveFinished(holder);
                 mRemoveAnimations.remove(holder);
                 dispatchFinishedWhenDone();

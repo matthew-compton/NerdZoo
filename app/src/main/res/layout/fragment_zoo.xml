@@ -23,6 +23,8 @@
         android:tint="@android:color/white"
         android:elevation="@dimen/elevation_low"
         android:stateListAnimator="@anim/fab_elevation"
+        android:visibility="invisible"
+        tools:visibility="visible"
         />
 
     <ImageButton
