@@ -10,6 +10,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/dialog_about_content"
+        android:visibility="invisible"
+        tools:visibility="visible"
         style="@style/LargeTextView"
         />
 

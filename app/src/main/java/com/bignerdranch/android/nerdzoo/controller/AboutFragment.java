@@ -1,17 +1,25 @@
 package com.bignerdranch.android.nerdzoo.controller;
 
+import android.animation.Animator;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bignerdranch.android.nerdzoo.BaseApplication;
 import com.bignerdranch.android.nerdzoo.R;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class AboutFragment extends Fragment {
+
+    @InjectView(R.id.fragment_about_description) TextView mAboutTextView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,7 +32,29 @@ public class AboutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_about, container, false);
         ButterKnife.inject(this, view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    v.removeOnLayoutChangeListener(this);
+                    setupRevealAnimation(mAboutTextView);
+                }
+            });
+        }
+
         return view;
+    }
+
+    private void setupRevealAnimation(View view) {
+        int cx = (view.getLeft() + view.getRight()) / 2;
+        int cy = (view.getTop() + view.getBottom()) / 2;
+        int finalRadius = Math.max(view.getWidth(), view.getHeight());
+        Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, finalRadius);
+        anim.setDuration(1000);
+        view.setVisibility(View.VISIBLE);
+        anim.start();
     }
 
 }
