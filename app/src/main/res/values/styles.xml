@@ -31,7 +31,7 @@
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <style name="EmptyTextView">
+    <style name="LargeTextView">
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textSize">@dimen/text_large</item>
     </style>

@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context=".AnimalActivity">
+              android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/fragment_about_description"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="About"
+        android:text="@string/dialog_about_content"
+        style="@style/LargeTextView"
         />
 
 </LinearLayout>
