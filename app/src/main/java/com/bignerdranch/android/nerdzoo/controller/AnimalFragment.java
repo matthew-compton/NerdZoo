@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bignerdranch.android.nerdzoo.BaseApplication;
 import com.bignerdranch.android.nerdzoo.R;
@@ -26,6 +27,7 @@ import butterknife.InjectView;
 public class AnimalFragment extends Fragment {
 
     @InjectView(R.id.fragment_animal_image) public ImageView mImageView;
+    @InjectView(R.id.fragment_animal_description) public TextView mDescriptionTextView;
 
     @Inject Zoo mZoo;
 
@@ -58,6 +60,7 @@ public class AnimalFragment extends Fragment {
         ButterKnife.inject(this, view);
         setHasOptionsMenu(true);
 
+        mDescriptionTextView.setText(mAnimal.getDescriptionResourceId());
         loadImage();
 
         return view;
