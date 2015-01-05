@@ -38,7 +38,7 @@ public class AboutFragment extends Fragment {
                 @Override
                 public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                     v.removeOnLayoutChangeListener(this);
-                    RevealAnimator.reveal(mAboutTextView);
+                    RevealAnimator.show(mAboutTextView);
                 }
             });
         }

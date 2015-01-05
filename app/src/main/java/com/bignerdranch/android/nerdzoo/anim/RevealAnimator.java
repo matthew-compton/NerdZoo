@@ -1,19 +1,36 @@
 package com.bignerdranch.android.nerdzoo.anim;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 
 public class RevealAnimator {
 
-    public static void reveal(View view) {
+    public static void show(View view) {
         int cx = (view.getLeft() + view.getRight()) / 2;
         int cy = (view.getTop() + view.getBottom()) / 2;
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, finalRadius);
-        anim.setDuration(1000);
+        Animator animator = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, finalRadius);
+        animator.setDuration(1000);
         view.setVisibility(View.VISIBLE);
-        anim.start();
+        animator.start();
+    }
+
+    public static void hide(View view) {
+        int cx = (view.getLeft() + view.getRight()) / 2;
+        int cy = (view.getTop() + view.getBottom()) / 2;
+        int initialRadius = view.getWidth();
+        Animator animator = ViewAnimationUtils.createCircularReveal(view, cx, cy, initialRadius, 0);
+        animator.setDuration(1000);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                view.setVisibility(View.INVISIBLE);
+            }
+        });
+        animator.start();
     }
 
 }

@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 
 import com.bignerdranch.android.nerdzoo.BaseApplication;
 import com.bignerdranch.android.nerdzoo.R;
+import com.bignerdranch.android.nerdzoo.anim.PathAnimator;
 import com.bignerdranch.android.nerdzoo.anim.ZooItemAnimator;
 import com.bignerdranch.android.nerdzoo.model.Animal;
 import com.bignerdranch.android.nerdzoo.model.Zoo;
@@ -42,6 +44,7 @@ public class ZooFragment extends Fragment {
 
     public static final String EXTRA_ANIMAL_ID = "EXTRA_ANIMAL_ID";
 
+    @InjectView(R.id.fragment_zoo_layout) FrameLayout mFrameLayout;
     @InjectView(R.id.fragment_zoo_recycler_view) RecyclerView mRecyclerView;
     @InjectView(R.id.fragment_zoo_fab_remove) ImageButton mRemoveFAB;
     @InjectView(R.id.fragment_zoo_fab_add) ImageButton mAddFAB;
@@ -122,7 +125,7 @@ public class ZooFragment extends Fragment {
 
     private void removeAnimal(int position) {
         if (mSelectedPosition != null && mSelectedPosition.intValue() == position) {
-            deselectPosition();
+            deselectPosition(true);
         }
         mZoo.remove(position);
         mRecyclerView.getAdapter().notifyItemRemoved(position);
@@ -131,7 +134,7 @@ public class ZooFragment extends Fragment {
     private void clearAnimals() {
         mZooItemAnimator.setAnimationDirection(ZooItemAnimator.AnimationDirection.LEFT);
         if (mSelectedPosition != null) {
-            deselectPosition();
+            deselectPosition(true);
         }
         int size = mZoo.size();
         mZoo.clear();
@@ -145,14 +148,24 @@ public class ZooFragment extends Fragment {
         }
     }
 
-    private void deselectPosition() {
+    private void deselectPosition(boolean useAnimation) {
+        if (useAnimation) {
+            PathAnimator.hideToRight(getActivity(), mRemoveFAB, mFrameLayout.getWidth(), mFrameLayout.getHeight());
+        }
         if (mSelectedPosition != null) {
             mRecyclerView.findViewHolderForPosition(mSelectedPosition).itemView.setSelected(false);
             mSelectedPosition = null;
         }
     }
 
-    private void selectPosition(Integer selectedPosition) {
+    private void selectPosition(boolean useAnimation, Integer selectedPosition) {
+        if (selectedPosition == null) {
+            deselectPosition(useAnimation);
+            return;
+        }
+        if (useAnimation) {
+            PathAnimator.showFromRight(getActivity(), mRemoveFAB, mFrameLayout.getWidth(), mFrameLayout.getHeight());
+        }
         mSelectedPosition = selectedPosition;
         if (mSelectedPosition != null) {
             mRecyclerView.findViewHolderForPosition(mSelectedPosition).itemView.setSelected(true);
@@ -265,12 +278,12 @@ public class ZooFragment extends Fragment {
                 Timber.i("Long Press");
                 int position = mZoo.findPositionById(mAnimal.getId());
                 if (mSelectedPosition == null) {
-                    selectPosition(position);
+                    selectPosition(true, position);
                 } else if (mSelectedPosition.intValue() != position) {
-                    deselectPosition();
-                    selectPosition(position);
+                    deselectPosition(false);
+                    selectPosition(false, position);
                 } else {
-                    selectPosition(null);
+                    selectPosition(true, null);
                 }
                 super.onLongPress(e);
             }
