@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Path;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 import com.bignerdranch.android.nerdzoo.R;
 
@@ -24,7 +25,15 @@ public class PathAnimator {
         path.close();
 
         ObjectAnimator animator = ObjectAnimator.ofFloat(view, View.X, View.Y, path);
+        animator.setInterpolator(new DecelerateInterpolator());
         animator.setDuration(1000);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                view.setClickable(true);
+            }
+        });
         view.setVisibility(View.VISIBLE);
         animator.start();
     }
@@ -42,6 +51,7 @@ public class PathAnimator {
         path.close();
 
         ObjectAnimator animator = ObjectAnimator.ofFloat(view, View.X, View.Y, path);
+        animator.setInterpolator(new DecelerateInterpolator());
         animator.setDuration(1000);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -50,6 +60,7 @@ public class PathAnimator {
                 view.setVisibility(View.INVISIBLE);
             }
         });
+        view.setClickable(false);
         animator.start();
     }
 
