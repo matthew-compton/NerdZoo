@@ -5,7 +5,6 @@
               android:layout_width="match_parent"
               android:layout_height="?android:attr/listPreferredItemHeightLarge"
               android:layout_margin="@dimen/padding_small"
-              android:id="@+id/list_item_animal"
               android:orientation="horizontal"
               android:padding="@dimen/padding_small"
               android:clickable="true"

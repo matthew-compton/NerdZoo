@@ -20,7 +20,6 @@ import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -174,7 +173,6 @@ public class ZooFragment extends Fragment {
 
     public class ZooHolder extends RecyclerView.ViewHolder {
 
-        @InjectView(R.id.list_item_animal) public LinearLayout mLinearLayout;
         @InjectView(R.id.list_item_animal_image) public ImageView mImageView;
         @InjectView(R.id.list_item_animal_progress) public ProgressBar mProgressBar;
         @InjectView(R.id.list_item_animal_title) public TextView mTitleTextView;
@@ -203,6 +201,8 @@ public class ZooFragment extends Fragment {
             mDescriptionTextView.setText(mAnimal.getDescriptionResourceId());
             Picasso.with(getActivity())
                     .load(mAnimal.getImageResourceId())
+                    .resize(300, 225)
+                    .centerCrop()
                     .into(mImageView, new Callback() {
                         @Override
                         public void onSuccess() {
