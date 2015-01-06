@@ -231,9 +231,9 @@ public class ZooFragment extends Fragment {
 
         private class ZooOnGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-            private static final int SWIPE_MIN_DISTANCE = 120;
-            private static final int SWIPE_MAX_OFF_PATH = 250;
-            private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+            private static final int SWIPE_MIN_DISTANCE = 100;
+            private static final int SWIPE_MAX_OFF_PATH = 300;
+            private static final int SWIPE_THRESHOLD_VELOCITY = 150;
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
