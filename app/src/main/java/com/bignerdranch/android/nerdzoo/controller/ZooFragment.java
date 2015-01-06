@@ -44,7 +44,7 @@ public class ZooFragment extends Fragment {
 
     public static final String EXTRA_ANIMAL_ID = "EXTRA_ANIMAL_ID";
 
-    @InjectView(R.id.fragment_zoo_layout) FrameLayout mFrameLayout;
+    @InjectView(R.id.fragment_zoo_layout) FrameLayout mLayout;
     @InjectView(R.id.fragment_zoo_recycler_view) RecyclerView mRecyclerView;
     @InjectView(R.id.fragment_zoo_fab_remove) ImageButton mRemoveFAB;
     @InjectView(R.id.fragment_zoo_fab_add) ImageButton mAddFAB;
@@ -150,7 +150,7 @@ public class ZooFragment extends Fragment {
 
     private void deselectPosition(boolean useAnimation) {
         if (useAnimation) {
-            PathAnimator.hideToRight(getActivity(), mRemoveFAB, mFrameLayout.getWidth(), mFrameLayout.getHeight());
+            PathAnimator.hideToRight(getActivity(), mRemoveFAB, mLayout.getWidth(), mLayout.getHeight());
         }
         if (mSelectedPosition != null) {
             mRecyclerView.findViewHolderForPosition(mSelectedPosition).itemView.setSelected(false);
@@ -164,7 +164,7 @@ public class ZooFragment extends Fragment {
             return;
         }
         if (useAnimation) {
-            PathAnimator.showFromRight(getActivity(), mRemoveFAB, mFrameLayout.getWidth(), mFrameLayout.getHeight());
+            PathAnimator.showFromRight(getActivity(), mRemoveFAB, mLayout.getWidth(), mLayout.getHeight());
         }
         mSelectedPosition = selectedPosition;
         if (mSelectedPosition != null) {

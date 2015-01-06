@@ -10,12 +10,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bignerdranch.android.nerdzoo.BaseApplication;
 import com.bignerdranch.android.nerdzoo.R;
+import com.bignerdranch.android.nerdzoo.anim.PathAnimator;
 import com.bignerdranch.android.nerdzoo.model.Animal;
 import com.bignerdranch.android.nerdzoo.model.Zoo;
 import com.squareup.picasso.Picasso;
@@ -30,6 +33,7 @@ import butterknife.OnClick;
 
 public class AnimalFragment extends Fragment {
 
+    @InjectView(R.id.fragment_animal_layout) public RelativeLayout mLayout;
     @InjectView(R.id.fragment_animal_image) public ImageView mImageView;
     @InjectView(R.id.fragment_animal_description) public TextView mDescriptionTextView;
     @InjectView(R.id.fragment_animal_heart) public ImageButton mHeartImageButton;
@@ -63,6 +67,8 @@ public class AnimalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_animal, container, false);
         ButterKnife.inject(this, view);
         setHasOptionsMenu(true);
+
+        setupLayoutListener();
         updateUI();
         return view;
     }
@@ -87,6 +93,16 @@ public class AnimalFragment extends Fragment {
     public void onClickHeartButton() {
         mAnimal.setFavorite(!mAnimal.isFavorite());
         startHeartAnimation();
+    }
+
+    private void setupLayoutListener() {
+        mLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                PathAnimator.curveInFromRight(getActivity(), mHeartImageButton, mLayout.getWidth(), mLayout.getHeight());
+            }
+        });
     }
 
     private void updateUI() {

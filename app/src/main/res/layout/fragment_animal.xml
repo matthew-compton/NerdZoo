@@ -4,7 +4,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                tools:context=".AnimalActivity">
+                tools:context=".AnimalActivity"
+                android:id="@+id/fragment_animal_layout">
 
     <ImageView
         android:id="@+id/fragment_animal_image"
@@ -35,6 +36,9 @@
         android:layout_marginTop="@dimen/padding_normal"
         android:layout_marginRight="@dimen/padding_normal"
         android:background="@drawable/animation_heart_filling"
+        android:clickable="false"
+        android:visibility="invisible"
+        tools:visibility="visible"
         />
 
 </RelativeLayout>
