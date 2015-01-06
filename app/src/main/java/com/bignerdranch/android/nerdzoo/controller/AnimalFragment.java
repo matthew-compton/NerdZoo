@@ -1,6 +1,8 @@
 package com.bignerdranch.android.nerdzoo.controller;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,11 +26,13 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class AnimalFragment extends Fragment {
 
     @InjectView(R.id.fragment_animal_image) public ImageView mImageView;
     @InjectView(R.id.fragment_animal_description) public TextView mDescriptionTextView;
+    @InjectView(R.id.fragment_animal_heart) public ImageButton mHeartImageButton;
 
     @Inject Zoo mZoo;
 
@@ -51,7 +56,6 @@ public class AnimalFragment extends Fragment {
 
         UUID id = (UUID) getArguments().getSerializable(ZooFragment.EXTRA_ANIMAL_ID);
         mAnimal = mZoo.findAnimalById(id);
-        getActivity().setTitle(mAnimal.getNameResourceId());
     }
 
     @Override
@@ -59,10 +63,7 @@ public class AnimalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_animal, container, false);
         ButterKnife.inject(this, view);
         setHasOptionsMenu(true);
-
-        mDescriptionTextView.setText(mAnimal.getDescriptionResourceId());
-        loadImage();
-
+        updateUI();
         return view;
     }
 
@@ -76,16 +77,36 @@ public class AnimalFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_base_refresh:
-                loadImage();
+                updateUI();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void loadImage() {
+    @OnClick(R.id.fragment_animal_heart)
+    public void onClickHeartButton() {
+        mAnimal.setFavorite(!mAnimal.isFavorite());
+        startHeartAnimation();
+    }
+
+    private void updateUI() {
+        getActivity().setTitle(mAnimal.getNameResourceId());
+        mDescriptionTextView.setText(mAnimal.getDescriptionResourceId());
+        mHeartImageButton.setBackgroundResource(mAnimal.isFavorite() ? R.drawable.animation_heart_emptying : R.drawable.animation_heart_filling);
         Picasso.with(getActivity())
                 .load(mAnimal.getImageResourceId())
                 .into(mImageView);
+    }
+
+    private void startHeartAnimation() {
+        mHeartImageButton.setClickable(false);
+        AnimationDrawable heartAnimation = (AnimationDrawable) mHeartImageButton.getBackground();
+        heartAnimation.start();
+        int time = heartAnimation.getDuration(0) * heartAnimation.getNumberOfFrames();
+        new Handler().postDelayed(() -> {
+            mHeartImageButton.setClickable(true);
+            updateUI();
+        }, time);
     }
 
 }

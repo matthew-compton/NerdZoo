@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context=".AnimalActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context=".AnimalActivity">
 
     <ImageView
         android:id="@+id/fragment_animal_image"
@@ -19,10 +19,22 @@
         android:id="@+id/fragment_animal_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_animal_image"
         android:gravity="center"
         android:padding="@dimen/padding_normal"
         tools:text="Description"
         style="@style/DescriptionTextView"
         />
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/fragment_animal_heart"
+        android:layout_width="@dimen/fab_diameter"
+        android:layout_height="@dimen/fab_diameter"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginRight="@dimen/padding_normal"
+        android:background="@drawable/animation_heart_filling"
+        />
+
+</RelativeLayout>

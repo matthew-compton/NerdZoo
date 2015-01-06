@@ -10,11 +10,14 @@ public class Animal implements Serializable {
     private int mDescriptionResourceId;
     private int mImageResourceId;
 
+    private boolean mIsFavorite;
+
     public Animal(UUID id, int nameResourceId, int descriptionResourceId, int imageResourceId) {
         this.mId = id;
         this.mNameResourceId = nameResourceId;
         this.mDescriptionResourceId = descriptionResourceId;
         this.mImageResourceId = imageResourceId;
+        mIsFavorite = false;
     }
 
     public UUID getId() {
@@ -31,6 +34,14 @@ public class Animal implements Serializable {
 
     public int getImageResourceId() {
         return mImageResourceId;
+    }
+
+    public boolean isFavorite() {
+        return mIsFavorite;
+    }
+
+    public void setFavorite(boolean isFavorite) {
+        mIsFavorite = isFavorite;
     }
 
 }

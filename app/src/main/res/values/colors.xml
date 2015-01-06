@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Main Theme -->
     <color name="primary">#FF9800</color>
     <color name="primary_dark">#F57C00</color>
     <color name="primary_light">#FFE0B2</color>
     <color name="accent">#FF5722</color>
+
+    <!-- Complement Theme -->
     <color name="complement_primary">#2196F3</color>
     <color name="complement_primary_dark">#1976D2</color>
     <color name="complement_primary_light">#BBDEFB</color>
     <color name="complement_accent">#536DFE</color>
 
+    <!-- Text -->
     <color name="text_toolbar_primary">#FFFFFF</color>
     <color name="text_toolbar_secondary">#000000</color>
     <color name="text_primary">#D9212121</color>
     <color name="text_secondary">#D9727272</color>
 
+    <!-- Background -->
     <color name="background">#FFEEEEEE</color>
     <color name="background_selectable_item">#FFFFFF</color>
 
+    <!-- Miscellaneous -->
     <color name="icons">#FFFFFF</color>
     <color name="dividers">#B6B6B6</color>
 
