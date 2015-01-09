@@ -35,7 +35,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/padding_normal"
         android:layout_marginRight="@dimen/padding_normal"
-        android:background="@drawable/animation_heart_filling"
+        android:background="@drawable/ic_heart_0"
         android:clickable="false"
         android:visibility="invisible"
         tools:visibility="visible"

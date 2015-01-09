@@ -92,6 +92,7 @@ public class AnimalFragment extends Fragment {
     @OnClick(R.id.fragment_animal_heart)
     public void onClickHeartButton() {
         mAnimal.setFavorite(!mAnimal.isFavorite());
+        mHeartImageButton.setBackgroundResource(mAnimal.isFavorite() ? R.drawable.animation_heart_filling : R.drawable.animation_heart_emptying);
         startHeartAnimation();
     }
 
@@ -108,7 +109,6 @@ public class AnimalFragment extends Fragment {
     private void updateUI() {
         getActivity().setTitle(mAnimal.getNameResourceId());
         mDescriptionTextView.setText(mAnimal.getDescriptionResourceId());
-        mHeartImageButton.setBackgroundResource(mAnimal.isFavorite() ? R.drawable.animation_heart_emptying : R.drawable.animation_heart_filling);
         Picasso.with(getActivity())
                 .load(mAnimal.getImageResourceId())
                 .into(mImageView);

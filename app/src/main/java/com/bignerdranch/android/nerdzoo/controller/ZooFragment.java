@@ -29,6 +29,7 @@ import com.bignerdranch.android.nerdzoo.anim.PathAnimator;
 import com.bignerdranch.android.nerdzoo.anim.ZooItemAnimator;
 import com.bignerdranch.android.nerdzoo.model.Animal;
 import com.bignerdranch.android.nerdzoo.model.Zoo;
+import com.bignerdranch.android.nerdzoo.util.BuildUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -78,14 +79,16 @@ public class ZooFragment extends Fragment {
     }
 
     private void setupFloatingActionButton(ImageButton imageButton) {
-        imageButton.setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                int diameter = getResources().getDimensionPixelSize(R.dimen.fab_diameter);
-                outline.setOval(0, 0, diameter, diameter);
-            }
-        });
-        imageButton.setClipToOutline(true);
+        if (BuildUtils.isLollipopEnabled()) {
+            imageButton.setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    int diameter = getResources().getDimensionPixelSize(R.dimen.fab_diameter);
+                    outline.setOval(0, 0, diameter, diameter);
+                }
+            });
+            imageButton.setClipToOutline(true);
+        }
     }
 
     @Override
